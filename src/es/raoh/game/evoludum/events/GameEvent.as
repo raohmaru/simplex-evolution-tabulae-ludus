@@ -8,6 +8,8 @@ import flash.events.Event;
 public class GameEvent extends Event
 {
 	public static const SQUARE_CLICK :String = "squareClick",
+						START :String = "gameStart",
+						EXIT :String = "gameExit",
 						DATA_UPDATED :String = "dataUpdated";
 	
 	private var _data :*;

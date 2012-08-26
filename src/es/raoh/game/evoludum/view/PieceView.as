@@ -6,6 +6,7 @@ import flash.utils.getDefinitionByName;
 import jp.raohmaru.toolkit.motion.Paprika;
 import jp.raohmaru.toolkit.motion.easing.Back;
 import jp.raohmaru.toolkit.motion.easing.Quad;
+import jp.raohmaru.toolkit.utils.MathUtil;
 
 public class PieceView extends AbstractView
 {
@@ -49,6 +50,13 @@ public class PieceView extends AbstractView
 	public function disappear() :void
 	{
 		Paprika.wait(this, .5, 0, function():void {
+			parent.removeChild(this);
+		});
+	}
+	
+	public function remove() :void
+	{
+		Paprika.add(this, .2, {scale: 0}, Quad.easeIn, MathUtil.random(.2), function():void {
 			parent.removeChild(this);
 		});
 	}

@@ -2,11 +2,11 @@ package es.raoh.game.evoludum.core
 {
 import es.raoh.game.evoludum.EvoLudum;
 import es.raoh.game.evoludum.data.GameData;
-import es.raoh.game.evoludum.events.GameEvent;
 
 import flash.display.Sprite;
+import flash.events.EventDispatcher;
 
-public class GameObject
+public class GameObject extends EventDispatcher
 {
 	protected var _view :Sprite,
 				  _game :EvoLudum,
@@ -17,8 +17,6 @@ public class GameObject
 	{
 		_game = game;
 		_data = data;
-		if(_data)
-			_data.addEventListener(GameEvent.DATA_UPDATED, dataHandler);
 		
 		init();
 	}
@@ -29,11 +27,6 @@ public class GameObject
 	protected function init() :void
 	{
 		_view = new Sprite();
-	}
-	
-	protected function dataHandler(e :GameEvent) :void
-	{
-		
 	}
 }
 }

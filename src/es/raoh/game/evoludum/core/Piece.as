@@ -87,6 +87,13 @@ public class Piece extends GameObject
 	public function disappear() :void
 	{
 		PieceView(_view).disappear();
+		_view = null;
+	}
+	
+	public function remove() :void
+	{
+		PieceView(_view).remove();
+		_view = null;
 	}
 }
 }

@@ -1,9 +1,8 @@
 package es.raoh.game.evoludum
 {
-import assets.Title;
-
 import es.raoh.game.evoludum.core.*;
 import es.raoh.game.evoludum.data.*;
+import es.raoh.game.evoludum.events.GameEvent;
 
 import flash.display.Sprite;
 
@@ -12,6 +11,7 @@ public class EvoLudum extends GameObject
 	private var	_board :Board,
 				_turn :TurnMachine,
 				_players :Vector.<Player>,
+				_hud :HUD,
 				_options :Options;
 				
 	public function get turn():TurnMachine { return _turn; }
@@ -34,7 +34,8 @@ public class EvoLudum extends GameObject
 		
 		_data = new GameData(_options.rows, _options.cols);
 		
-		_view.addChild( new assets.Title );
+		_hud = new HUD(this, _data);
+		_view.addChild( _hud.view );
 		
 		_board = new Board(this, _data);
 		_view.addChild( _board.view );
@@ -52,19 +53,21 @@ public class EvoLudum extends GameObject
 	 */
 	public function start() :void
 	{
-//		_board.addPiece(0,2,1,2);
-//		_board.addPiece(1,2,0,1);
-//		_board.addPiece(1,3,0,2);
-//		_board.addPiece(2,3,1,1);
-//		_board.addPiece(2,2,1,2);
-//		_board.addPiece(3,2,0,3);
-//		_board.addPiece(3,0,1,2);
-//		_board.addPiece(3,3,1,4);
-//		_board.addPiece(4,2,0,3);
-//		_board.addPiece(4,3,0,3);
-//		_board.addPiece(4,4,0,3);
+		/*_board.addPiece(0,2,1,2);
+		_board.addPiece(1,2,0,1);
+		_board.addPiece(1,3,0,2);
+		_board.addPiece(2,3,1,1);
+		_board.addPiece(2,2,1,2);
+		_board.addPiece(3,2,0,3);
+		_board.addPiece(3,0,1,2);
+		_board.addPiece(3,3,1,4);
+		_board.addPiece(4,2,0,3);
+		_board.addPiece(4,3,0,3);
+		_board.addPiece(4,4,0,3);*/
 		
+		_data.clear();
 		_turn.reset();
+		_board.reset();
 		nextTurn();
 	}
 	
@@ -75,7 +78,16 @@ public class EvoLudum extends GameObject
 	{
 		_turn.next();
 		_board.prepare();
+		_hud.updateTurn();
 		_players[_turn.currentPlayerId].play();
+	}
+	
+	/**
+	 * 
+	 */
+	public function quit() :void
+	{
+		dispatchEvent( new GameEvent(GameEvent.EXIT) );
 	}
 }
 }

@@ -33,7 +33,8 @@ public class BoardView extends AbstractView
 	
 	private function init() :void
 	{
-		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		x = 62;
+		y = 27;
 		addChild( new assets.Board() );
 		
 		_squares = new Vector.<BoardSquareView>();
@@ -54,17 +55,6 @@ public class BoardView extends AbstractView
 				_squares.push(sq);
 			}
 		}	
-	}
-	
-	/**
-	 * 
-	 */
-	private function addedToStage(e :Event) :void
-	{
-		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
-		
-		x = stage.stageWidth/2 - width/2;
-		y = stage.stageHeight/2 - height/2;
 	}
 	
 	private function squareMouseHandler(e :MouseEvent) :void

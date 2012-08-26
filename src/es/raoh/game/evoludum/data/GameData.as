@@ -7,32 +7,39 @@ import flash.events.EventDispatcher;
 public class GameData extends EventDispatcher
 {
 	private var _arr :Array,
-				_vec :Vector.<SquareData>;
+				_vec :Vector.<SquareData>,
+				_rows :uint,
+				_cols :uint;
 	
 	public function GameData(rows:uint, cols:uint)
 	{
-		init(rows, cols);
+		_rows = rows;
+		_cols = cols;
+		
+		clear();
 	}
 	
 	/**
 	 * 
 	 */
-	private function init(rows:uint, cols:uint) :void
+	public function clear() :void
 	{
 		_arr = [];
-		_vec = new Vector.<SquareData>(rows*cols);
+		_vec = new Vector.<SquareData>(_rows*_cols);
 		var k :int;
 		
-		for (var i:int = 0; i < rows; i++) 
+		for (var i:int = 0; i < _rows; i++) 
 		{
 			_arr[i] = [];
-			for (var j:int = 0; j < cols; j++)
+			for (var j:int = 0; j < _cols; j++)
 			{
 				_arr[i][j] = new SquareData(i, j, k++);
 			}
 		}
 		
 		updateVector();
+		
+		dispatchEvent( new GameEvent(GameEvent.DATA_UPDATED) );
 	}
 	
 	/**
@@ -52,6 +59,24 @@ public class GameData extends EventDispatcher
 		updateVector();
 		dispatchEvent( new GameEvent(GameEvent.DATA_UPDATED) );
 //		trace(this);
+	}
+	
+	/**
+	 * 
+	 */
+	public function getScore(playerid :uint) :uint
+	{
+		var score :uint,
+			i :int = _vec.length,
+			sqd :SquareData;
+		while(--i > -1)
+		{
+			sqd = _vec[i];
+			if(sqd.owner == playerid && sqd.level > 1)
+				score += sqd.level;
+		}
+		
+		return score;
 	}
 	
 	/**

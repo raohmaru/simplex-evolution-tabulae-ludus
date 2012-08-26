@@ -93,8 +93,6 @@ public class Board extends GameObject
 		_pieces[sqd.idx] = piece;
 	}
 	
-	
-	
 	/**
 	 * 
 	 */
@@ -118,6 +116,21 @@ public class Board extends GameObject
 		_pieces[curr.idx].merge(_pieces[target.idx], target.level);
 		_pieces[target.idx] = _pieces[curr.idx];
 		_pieces[curr.idx] = null;
+	}
+	
+	/**
+	 * 
+	 */
+	public function reset() :void
+	{
+		_sqd = null;
+		
+		for (var i:int = 0; i < _pieces.length; i++)
+		{
+			if(_pieces[i])
+				_pieces[i].remove();
+			_pieces[i] = null;
+		}
 	}
 }
 }

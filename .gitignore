@@ -7,3 +7,5 @@ bin-release/
 .flexProperties
 .settings/
 .project
+concept/
+html-template/

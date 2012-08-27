@@ -1,7 +1,7 @@
 simplex-evolution-tabulae-ludus
 ===============================
 
-A Game Entry for [Ludum Dare 24](http://www.ludumdare.com/compo/) Online Game Competition.
+A Game Entry for [Ludum Dare 24](http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&uid=14867) Online Game Competition.
 
 Coded in ActionScript3 with the help of this [toolkit](https://github.com/raohmaru/Raohmaru-Toolkit).
 

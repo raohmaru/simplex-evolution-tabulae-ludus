@@ -28,7 +28,7 @@ public class EvoLudum extends GameObject
 	public function set numPlayers(value:uint):void 
 	{
 		_players[1].type = value == 1 ? Player.T_AI : Player.T_HUMAN;
-		_players[1].name = value == 1 ? "Ludum Dominus" : "Player 2";
+		_players[1].name = value == 1 ? "Ludum Dominus" : "Player Two";
 	}
 	
 	public function EvoLudum()
@@ -56,7 +56,7 @@ public class EvoLudum extends GameObject
 		_view.addChild( _board.view );
 		
 		var arr :Array = [
-			["Player 1", Player.T_HUMAN],
+			["Player One", Player.T_HUMAN],
 			["Ludum Dominus", Player.T_AI]
 		];
 		_players = new Vector.<Player>();

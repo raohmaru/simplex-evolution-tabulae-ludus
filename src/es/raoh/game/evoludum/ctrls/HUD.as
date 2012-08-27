@@ -1,4 +1,4 @@
-package es.raoh.game.evoludum.core
+package es.raoh.game.evoludum.ctrls
 {
 import assets.HUD;
 
@@ -10,14 +10,15 @@ import flash.display.MovieClip;
 import flash.events.MouseEvent;
 
 import jp.raohmaru.toolkit.motion.Paprika;
+import es.raoh.game.evoludum.core.GameObject;
 
 public class HUD extends GameObject
 {
 	private var _hud :MovieClip;
 	
-	public function HUD(game:EvoLudum, data:GameData)
+	public function HUD(game:EvoLudum)
 	{
-		super(game, data);
+		super(game);
 	}
 	
 	override protected function init() :void
@@ -30,14 +31,14 @@ public class HUD extends GameObject
 		_hud.restart_bot.addEventListener(MouseEvent.MOUSE_UP, buttonHandler);
 		_hud.quit_bot.addEventListener(MouseEvent.MOUSE_UP, buttonHandler);
 		
-		_data.addEventListener(GameEvent.DATA_UPDATED, dataHandler);
+		_game.data.addEventListener(GameEvent.DATA_UPDATED, dataHandler);
 	}
 	
 	private function dataHandler(e :GameEvent) :void
 	{
 		for (var i:int = 0; i < _game.players.length; i++) 
 		{
-			var score :uint = _data.getScore(_game.players[i].id);
+			var score :uint = _game.ref.getScore(_game.players[i].id);
 			_hud['score'+i].text = score;
 		}
 	}
@@ -45,10 +46,16 @@ public class HUD extends GameObject
 	private function buttonHandler(e :MouseEvent) :void
 	{
 		if(e.target.name == "restart_bot")
-			_game.start();
+		{
+			_game.msg.dialog("Restart Game", "Are you sure you want to restart the game? All the progress will be lost.")
+				.confirm(_game.start);
+		}
 		
 		else if(e.target.name == "quit_bot")
-			_game.quit();
+		{
+			_game.msg.dialog("Quit Game", "Are you sure you want to quit the game?")
+				.confirm(_game.quit);
+		}
 	}
 	
 	/**

@@ -22,6 +22,7 @@ public class Home extends Sprite
 	{
 		var screen :MovieClip = new assets.Home();
 			screen.play_bot.addEventListener(MouseEvent.MOUSE_UP, mouseHandler);
+			screen.play2_bot.addEventListener(MouseEvent.MOUSE_UP, mouseHandler);
 			screen.help_bot.addEventListener(MouseEvent.MOUSE_UP, mouseHandler);
 			screen.logo_bot.addEventListener(MouseEvent.MOUSE_UP, mouseHandler);
 		addChild(screen);
@@ -47,8 +48,15 @@ public class Home extends Sprite
 				dispatchEvent(new GameEvent(GameEvent.START));
 			});
 		}
+		else if(e.target.name == "play2_bot")
+		{
+			Paprika.add(this, .5, {autoAlpha:0}, null, 0, function():void
+			{
+				dispatchEvent(new GameEvent(GameEvent.START2));
+			});
+		}
 		else if(e.target.name == "help_bot")
-			trace("help_bot");
+			dispatchEvent(new GameEvent(GameEvent.HELP));
 			
 		else if(e.target.name == "logo_bot")
 			WebUtil.getURL("http://raohmaru.com", "_blank");

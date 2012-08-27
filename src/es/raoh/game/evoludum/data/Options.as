@@ -6,13 +6,24 @@ public class Options
 				cols :uint = 5,
 				square_size :Number = 83,
 				num_players :uint = 2,
-				max_level :uint = 4,
-				rules :Array = [
+				
+				ini_level :uint = 1,
+				max_level :uint = 5,
+				win_level :uint = 5,
+				min_score_level :int = 1,
+				
+				moves :Array = [
 					[],
-					["+", "self","="],
-					["+", "opp", "=-1"],
-					["#", "opp", "=-1"],
-					["*", "opp", "=-1"]
+//					["+", "self","="],
+//					["+", "opp", "=-1"],
+//					["#", "opp", "=-1"],
+//					["*", "opp", "=-1"]
+					
+					["+", "self", "="],
+					["+", "self", "=-1"],
+					["+", "self", "=-1"],
+					["+", "self", "=-1"],
+					["+", "both", "=-1"]
 				];
 	
 	public function Options()

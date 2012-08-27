@@ -2,7 +2,7 @@ package es.raoh.game.evoludum.view
 {
 import assets.Board;
 
-import es.raoh.game.evoludum.core.Piece;
+import es.raoh.game.evoludum.ctrls.Piece;
 import es.raoh.game.evoludum.core.Player;
 import es.raoh.game.evoludum.data.GameData;
 import es.raoh.game.evoludum.data.SquareData;
@@ -64,6 +64,8 @@ public class BoardView extends AbstractView
 	
 	public function prepare(player:Player, data :Vector.<SquareData>) :void
 	{
+		mouseChildren = true;
+		
 		for (var i:int = 0; i < _squares.length; i++)
 		{
 			_squares[i].mouseEnabled = player.isHuman() && (data[i].isEmpty() || data[i].owner == player.id );
@@ -76,6 +78,8 @@ public class BoardView extends AbstractView
 	 */
 	public function highlightMoves(arr :Array) :void
 	{
+		mouseChildren = true;
+		
 		for (var i:int = 0; i < _squares.length; i++)
 		{
 			_squares[i].mouseEnabled = arr[i] != 0;

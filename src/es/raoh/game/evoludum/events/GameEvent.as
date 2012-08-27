@@ -9,7 +9,9 @@ public class GameEvent extends Event
 {
 	public static const SQUARE_CLICK :String = "squareClick",
 						START :String = "gameStart",
+						START2 :String = "gameStart2",
 						EXIT :String = "gameExit",
+						HELP :String = "gameHelp",
 						DATA_UPDATED :String = "dataUpdated";
 	
 	private var _data :*;

@@ -1,4 +1,4 @@
-package es.raoh.game.evoludum.core
+package es.raoh.game.evoludum.ctrls
 {
 import es.raoh.game.evoludum.EvoLudum;
 import es.raoh.game.evoludum.data.GameData;
@@ -8,6 +8,8 @@ import es.raoh.game.evoludum.view.BoardSquareView;
 import es.raoh.game.evoludum.view.BoardView;
 
 import flash.events.MouseEvent;
+import es.raoh.game.evoludum.core.GameObject;
+import es.raoh.game.evoludum.core.Player;
 
 public class Board extends GameObject
 {
@@ -15,9 +17,9 @@ public class Board extends GameObject
 				_pieces :Vector.<Piece>,
 				_sqd :SquareData;
 	
-	public function Board(game :EvoLudum, data :GameData)
+	public function Board(game :EvoLudum)
 	{
-		super(game, data);
+		super(game);
 	}
 	
 	/**
@@ -39,12 +41,22 @@ public class Board extends GameObject
 	 */
 	private function viewEventHandler(e :GameEvent) :void
 	{
+		action(e.data.row, e.data.col);
+	}
+	
+	/**
+	 * 
+	 */
+	public function action(row:uint, col:uint) :void
+	{
 		var player :Player = _game.players[_game.turn.currentPlayerId],
-			sqd :SquareData = _data.squareAt(e.data.row, e.data.col);
+			sqd :SquareData = _game.data.squareAt(row, col);
+		
+		_board_view.mouseChildren = false;
 		
 		if(sqd.isEmpty())
 		{
-			addPiece(sqd.row, sqd.col, player.id);
+			addPiece(sqd.row, sqd.col, player.id, _game.options.ini_level);
 			_game.nextTurn();
 		}
 		else
@@ -52,14 +64,17 @@ public class Board extends GameObject
 			if(_sqd != null)
 			{
 				var piece :Piece = _pieces[_sqd.idx];
-					piece.highlight = false;
+				piece.highlight = false;
 				
 				if(sqd.eq(_sqd))
 					prepare();
 				else
 				{
 					merge(_sqd, sqd);
-					_game.nextTurn();
+					if(	_game.ref.checkWinConditions() )
+						_game.win();
+					else
+						_game.nextTurn();
 				}
 				
 				_sqd = null;
@@ -68,7 +83,7 @@ public class Board extends GameObject
 			{
 				piece = _pieces[sqd.idx];
 				piece.highlight = true;
-				_board_view.highlightMoves( piece.legalMoves(sqd) );
+				_board_view.highlightMoves( _game.ref.legalMoves(sqd) );
 				_sqd = sqd;
 			}
 		}
@@ -77,17 +92,17 @@ public class Board extends GameObject
 	/**
 	 * 
 	 */
-	public function addPiece(row:uint, col:uint, owner:uint, level:uint=1) :void
+	public function addPiece(row:uint, col:uint, owner:uint, level:uint) :void
 	{
 		var player :Player = _game.players[owner],
-			sqd :SquareData = _data.squareAt(row, col);
+			sqd :SquareData = _game.data.squareAt(row, col);
 		
 		sqd.owner = owner;
 		sqd.level = level;
 		
-		_data.updateSquare(sqd);
+		_game.data.updateSquare(sqd);
 		
-		var piece :Piece = new Piece(_game, _data, player.pieceSym, level);
+		var piece :Piece = new Piece(_game, player.pieceSym, level);
 		
 		_board_view.addPiece(row, col, piece.view);
 		_pieces[sqd.idx] = piece;
@@ -98,7 +113,7 @@ public class Board extends GameObject
 	 */
 	public function prepare() :void
 	{
-		_board_view.prepare(_game.players[_game.turn.currentPlayerId], _data.toVector());		
+		_board_view.prepare(_game.players[_game.turn.currentPlayerId], _game.data.toVector());		
 	}
 	
 	/**
@@ -107,11 +122,11 @@ public class Board extends GameObject
 	private function merge(curr :SquareData, target :SquareData) :void
 	{
 		target.owner = curr.owner;
-		target.level = curr.level + (curr.level < _game.options.max_level ? 1 : 0);
-		_data.updateSquare(target);	
+		target.level = _game.ref.levelUp(curr, target);
+		_game.data.updateSquare(target);
 		
 		curr.clear();
-		_data.updateSquare(curr);
+		_game.data.updateSquare(curr);
 		
 		_pieces[curr.idx].merge(_pieces[target.idx], target.level);
 		_pieces[target.idx] = _pieces[curr.idx];

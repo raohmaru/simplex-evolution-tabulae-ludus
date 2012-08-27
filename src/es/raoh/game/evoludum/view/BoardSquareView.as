@@ -73,7 +73,6 @@ public class BoardSquareView extends AbstractView
 	override public function toString() : String 
 	{
 		return "[BoardSquare row="+_row+", col="+_col+"]";
-	}
-	
+	}	
 }
 }

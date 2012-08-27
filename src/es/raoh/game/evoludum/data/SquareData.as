@@ -69,7 +69,8 @@ public class SquareData
 	
 	public function toString() : String 
 	{
-		return isEmpty() ? " 0 " : _owner+":"+_level;
+//		return isEmpty() ? " 0 " : _owner+":"+_level;
+		return "[SquareData row="+_row+", col="+_col+", owner="+_owner+", level="+_level+"]";
 	}
 }
 }
